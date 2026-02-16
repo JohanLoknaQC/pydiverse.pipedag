@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.12.12 (2026-02-XX)
+## 0.12.12 (2026-02-16)
 - Fix dataframe upload fallbacks for MSSQL and Snowflake backends
 - Fix crash when prod schema could not be moved to transaction schema (e.g. due to broken views)
 - Fix: improved google cloud storage (GCS) support
