@@ -1,5 +1,7 @@
 # Changelog
 
+- Feat: #343 When encountering error in table download outputs original error as part of the failure message now.
+
 ## 0.12.13 (2026-04-16)
 - Fix #339: fixed bug when using schema_prefix with ParquetTableStore and separate metadata store
 
