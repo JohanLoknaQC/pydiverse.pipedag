@@ -21,7 +21,7 @@ pyyaml = ">=6.0.3,<7"
 cryptography = ">=45.0.7,<47"
 click = ">=8.1.8,<9"
 pyparsing = ">=3.2.5,<4"
-sqlalchemy = ">=1.4.54,<3,!=2.0.45"  # exclude 2.0.45 due to duckdb incompatibility
+sqlalchemy = ">=1.4.54,<3"
 pandas = ">=1.5.3,<3"
 pyarrow = ">=19.0.0,<23"
 duckdb = ">=0.10.3,<2"
@@ -88,10 +88,6 @@ pixi-pycharm = "*"
 ibis-framework = ">=10.5.0"
 ibis-mssql = ">=10.5.0"
 ibis-postgres = ">=10.5.0"
-duckdb = "<1.4"
-# E   AttributeError: module 'duckdb' has no attribute 'functional'
-#
-# ../.pixi/envs/py313all/lib/python3.13/site-packages/ibis/backends/duckdb/__init__.py:52: AttributeError
 
 [feature.mssql.dependencies]
 arrow-odbc = ">=8.1.1,<10"
@@ -200,8 +196,9 @@ sqlalchemy = ">=1.4.39, <2"
 sqlalchemy = ">=2"
 [feature.duckdb0.dependencies]
 duckdb = "<1"
+sqlalchemy = "<2.0.45" # sqlalchemy >=2.0.45 is incompatible with duckdb <1.5.3 because of duckdb-engine https://github.com/Mause/duckdb_engine/issues/1379
 [feature.duckdb1.dependencies]
-duckdb = ">=1.4.1"
+duckdb = ">=1.5.3" # sqlalchemy >=2.0.45 is incompatible with duckdb <1.5.3 because of duckdb-engine https://github.com/Mause/duckdb_engine/issues/1379
 [feature.connectorx.dependencies]
 connectorx = ">=0.3.3"
 # keeping old code running requires more precise pinning
@@ -244,6 +241,6 @@ py313mssqlpdt = ["py313", "dev", "zookeeper", "pd2", "sa2", "duckdb1", "mssql", 
 py311mssqldy = ["py311", "dev", "zookeeper", "pd2", "sa2", "duckdb1", "mssql", "dataframely", "pydot"]
 py313mssqldy = ["py313", "dev", "zookeeper", "pd2", "sa2", "duckdb1", "mssql", "dataframely", "pydot"]
 
-# support for pandas 1.x and sqlalchemy 1.4 is deprecated
+# support for pandas 1.x, sqlalchemy 1.4, and duckdb <1 is deprecated
 py311pdsa1 = ["py311", "dev", "zookeeper", "pd1", "sa1", "dask", "connectorx", "duckdb0", "pydot", "postgres"]
-py311pdsa1all = ["py311", "dev", "zookeeper", "pd1", "sa1", "polars12", "connectorx", "ibis", "mssql", "pdtransform-old", "filelock", "dask", "prefect2", "snowflake", "pydot", "postgres"]
+py311pdsa1all = ["py311", "dev", "zookeeper", "pd1", "sa1", "polars12", "connectorx", "duckdb0", "ibis", "mssql", "pdtransform-old", "filelock", "dask", "prefect2", "snowflake", "pydot", "postgres"]
