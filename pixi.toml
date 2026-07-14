@@ -4,6 +4,11 @@ channels = ["conda-forge"]
 exclude-newer = "7d"
 platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"] # "linux-aarch64"
 
+[exclude-newer]
+pydiverse-transform = "0d"
+pydiverse-common = "0d"
+pydiverse-colspec = "0d"
+
 [dependencies]
 #pip = "*"
 hatchling = "*"
@@ -11,23 +16,23 @@ python = ">=3.11.14,<3.15.0a0"
 pydiverse-common = ">=0.4.4,<0.5"
 typing-extensions = ">=4.15.0,<5"
 networkx = ">=3.4,<4"
-attrs = ">=25.4.0,<26"
-structlog = ">=25.4.0,<26"
+attrs = ">=25.4.0,<27"
+structlog = ">=25.4.0,<27"
 pynng = ">=0.8.1,<0.9"
 msgpack-python = ">=1.1.1,<2"
 packaging = ">=25.0,<26"
 python-box = ">=7.3.2,<8"
 pyyaml = ">=6.0.3,<7"
-cryptography = ">=45.0.7,<47"
+cryptography = ">=45.0.7,<50"
 click = ">=8.1.8,<9"
 pyparsing = ">=3.2.5,<4"
 sqlalchemy = ">=1.4.54,<3"
-pandas = ">=1.5.3,<3"
-pyarrow = ">=19.0.0,<23"
+pandas = ">=1.5.3,<4"
+pyarrow = ">=19.0.0,<25"
 duckdb = ">=0.10.3,<2"
 duckdb-engine = ">=0.15.0,<0.16"
 polars = ">=1.2.1,<2"
-fsspec = ">=2025.9.0,<2026"
+fsspec = ">=2025.9.0,<2027"
 universal_pathlib = ">=0.3.2,<0.4"
 
 
@@ -90,15 +95,19 @@ ibis-mssql = ">=10.5.0"
 ibis-postgres = ">=10.5.0"
 
 [feature.mssql.dependencies]
-arrow-odbc = ">=8.1.1,<10"
+arrow-odbc = ">=8.1.1,<11"
 pyodbc = ">=5.2.0,<6"
 pytsql = ">=1.4.0,<2"
 bcpandas = ">=2.6.3,<3"
+# conda-forge only ships bcpandas <=2.6.x, which imports the removed pkg_resources at load time.
+# Pin setuptools <81 so pkg_resources stays available.
+setuptools = "<81"
 python = "<3.14"  # odbc packages are not compatible, yet
 
 [feature.mssql-no-odbc.dependencies]
 pytsql = ">=1.4.0,<2"
 bcpandas = ">=2.6.3,<3"
+setuptools = "<81"  # see feature.mssql: keep pkg_resources available for bcpandas <2.7
 
 [feature.pdtransform-new.dependencies]
 pydiverse-transform = ">=0.7.0,<0.8"
@@ -117,20 +126,19 @@ dataframely = ">=2.1.0,<3"
 platforms = ["linux-64", "osx-arm64", "win-64"]
 
 [feature.ibm-db.dependencies]
-#Current pixi install keeps ibm_db 3.2.6 which works.
-ibm_db = ">=3.2.5, <3.2.7"  # somehow there is a version conflict for 3.2.7 that fails empty queries
+ibm_db = ">=3.2.5,<4"
 ibm_db_sa = ">=0.3.8"
 
 # S3 / GCS
 [feature.s3.dependencies]
-s3fs = ">=2025.5.1,<2026"
+s3fs = ">=2025.5.1,<2027"
 boto3 = ">=1.38.13,<2"
-gcsfs = ">=2025.9.0,<2026"
+gcsfs = ">=2025.9.0,<2027"
 google-auth = ">=2.48.0"
 
 # XGBoost is used by some relistic pipeline examples
 [feature.xgboost.dependencies]
-xgboost = ">=3.0.2,<4"
+xgboost = ">=3.0.2"
 
 [feature.docs.dependencies]
 sphinx = ">=8.2.3"
@@ -154,6 +162,7 @@ readthedocs = "rm -rf $READTHEDOCS_OUTPUT/html && cp -r docs/build/html $READTHE
 [feature.release.dependencies]
 hatch = ">=1.12.0"
 twine = ">=5.1.1"
+python = ">=3.14"
 
 [feature.lint.dependencies]
 #commitit-internal = "*"
@@ -189,7 +198,7 @@ python = "3.14.*"
 [feature.pd1.dependencies]
 pandas = ">=1.5.0, <2"
 [feature.pd2.dependencies]
-pandas = ">=2"
+pandas = ">=2,<4"
 [feature.sa1.dependencies]
 sqlalchemy = ">=1.4.39, <2"
 [feature.sa2.dependencies]
